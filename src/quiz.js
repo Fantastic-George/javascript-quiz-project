@@ -1,15 +1,54 @@
 class Quiz {
-    // YOUR CODE HERE:
-    //
-    // 1. constructor (questions, timeLimit, timeRemaining)
+  constructor(questions, timeLimit, timeRemaining){
+    this.questions = questions;
+    this.timeLimit = timeLimit;
+    this.timeRemaining = timeRemaining;
+    this.correctAnswers = 0;
+    this.currentQuestionIndex = 0;
+  }
 
-    // 2. getQuestion()
+    getQuestion() {
+        return this.questions[this.currentQuestionIndex];
+    }
     
-    // 3. moveToNextQuestion()
+    moveToNextQuestion() {
+        this.currentQuestionIndex+= 1;
+    }
 
-    // 4. shuffleQuestions()
+    shuffleQuestions() {
+        let currentIndex = this.questions.length; 
+        while (currentIndex !== 0) {
 
-    // 5. checkAnswer(answer)
 
-    // 6. hasEnded()
+            let randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+
+
+            [this.questions[currentIndex], this.questions[randomIndex]] = [
+                this.questions[randomIndex], this.questions[currentIndex]];
+        }
+    }
+
+
+    checkAnswer(answer) {
+        if (answer === this.correctAnswer) {
+            this.correctAnswers+=1;
+        }
+    } // question for Daniel!!??
+
+    hasEnded(){
+        if (this.currentQuestionIndex === this.questions.length) {
+        return this.currentQuestionIndex === this.questions.length;
+        } if (this.currentQuestionIndex <= this.questions.length) {
+        return false
+        }
+    }
 }
+
+/*class Quiz
+
+should receive questions (array) as its 1st argument and assign it to questions property. The array is meant to contain Question objects
+should receive timeLimit (number) as its 2nd argument and assign it to timeLimit property.
+should receive timeRemaining (number) as its 3rd argument and assign it to timeRemaining property.
+should have a correctAnswers property initially set to 0.
+should have a currentQuestionIndex property initially set to 0.*/
