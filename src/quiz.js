@@ -1,22 +1,22 @@
 class Quiz {
-  constructor(questions, timeLimit, timeRemaining){
-    this.questions = questions;
-    this.timeLimit = timeLimit;
-    this.timeRemaining = timeRemaining;
-    this.correctAnswers = 0;
-    this.currentQuestionIndex = 0;
-  }
+    constructor(questions, timeLimit, timeRemaining) {
+        this.questions = questions;
+        this.timeLimit = timeLimit;
+        this.timeRemaining = timeRemaining;
+        this.correctAnswers = 0;
+        this.currentQuestionIndex = 0;
+    }
 
     getQuestion() {
         return this.questions[this.currentQuestionIndex];
     }
-    
+
     moveToNextQuestion() {
-        this.currentQuestionIndex+= 1;
+        this.currentQuestionIndex += 1;
     }
 
     shuffleQuestions() {
-        let currentIndex = this.questions.length; 
+        let currentIndex = this.questions.length;
         while (currentIndex !== 0) {
 
 
@@ -32,23 +32,91 @@ class Quiz {
 
     checkAnswer(answer) {
         if (answer === this.correctAnswer) {
-            this.correctAnswers+=1;
+            this.correctAnswers += 1;
         }
     } // question for Daniel!!??
 
-    hasEnded(){
+    hasEnded() {
         if (this.currentQuestionIndex === this.questions.length) {
-        return this.currentQuestionIndex === this.questions.length;
+            return this.currentQuestionIndex === this.questions.length;
         } if (this.currentQuestionIndex <= this.questions.length) {
-        return false
+            return false
         }
     }
+    
+  
+
+    filterQuestionsByDifficulty(difficulty) { // still not getting all green from Jasmine but can't work out what's missing
+
+        if (typeof difficulty === "number" && difficulty > 0 && difficulty < 3) {
+            //return;
+        } this.questions = this.questions.filter((element, index, array) => {
+            if (element.difficulty === difficulty) {
+                return true;
+            } else {
+                return false;
+            }
+
+        })
+    }
+
+    averageDifficulty() {
+
+        if (this.questions.length === 0){
+            return;
+        }
+       const totalQuestionDifficulty = this.questions.reduce( (accumulator, currentValue, currentIndex, array) => {
+        return accumulator + currentValue.difficulty;
+       }, 0); 
+       return totalQuestionDifficulty / this.questions.length;
+
+    }
+
 }
 
-/*class Quiz
+ 
 
-should receive questions (array) as its 1st argument and assign it to questions property. The array is meant to contain Question objects
-should receive timeLimit (number) as its 2nd argument and assign it to timeLimit property.
-should receive timeRemaining (number) as its 3rd argument and assign it to timeRemaining property.
-should have a correctAnswers property initially set to 0.
-should have a currentQuestionIndex property initially set to 0.*/
+
+
+/*
+
+const menu = [
+  { name: 'Greek Salad', calories: 200, isVeggie: true },
+  { name: 'Mushroom Risotto', calories: 350, isVeggie: true },
+  { name: 'Falafel', calories: 333, isVeggie: true },
+  { name: 'Turkey Sandwich', calories: 320, isVeggie: false },
+  { name: 'Pasta Primavera', calories: 320, isVeggie: true },
+  { name: 'Grilled Salmon', calories: 400, isVeggie: false },
+];
+
+//
+// Iteration 1: Calculate the average number of calories.
+//
+
+const totalCalories = menu.reduce(function (acc, currentValue) {
+  return acc + currentValue.calories;
+}, 0);
+
+console.log(`Average calories: ${totalCalories / menu.length}`);
+
+//
+// Bonus: Calculate the average number of calories of the veggie options.
+//
+
+let numberOfVeggieOptions = 0;
+
+const totalCaloriesVeggieOptions = menu.reduce(function (acc, currentValue) {
+  if (currentValue.isVeggie) {
+    numberOfVeggieOptions++;
+    return acc + currentValue.calories;
+  } else {
+    return acc;
+  }
+}, 0);
+
+console.log(
+  `Average calories of the Veggie options: ${
+    totalCaloriesVeggieOptions / numberOfVeggieOptions
+  }`
+);
+*/
