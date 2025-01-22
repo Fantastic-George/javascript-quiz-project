@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const quiz = new Quiz(questions, quizDuration, quizDuration);
   // Shuffle the quiz questions
   quiz.shuffleQuestions();
-
+  
 
   /************  SHOW INITIAL CONTENT  ************/
 
@@ -98,19 +98,30 @@ document.addEventListener("DOMContentLoaded", () => {
     //
     // 1. Show the question
     // Update the inner text of the question container element and show the question text
+   
+    questionContainer.innerText = question.text
 
-    
     // 2. Update the green progress bar
     // Update the green progress bar (div#progressBar) width so that it shows the percentage of questions answered
     
-    progressBar.style.width = `65%`; // This value is hardcoded as a placeholder
+    //calculate percentage based on total questions array and current question position
+    
+    let percentage; if (quiz.questions.length > 0) {
+      (quiz.currentQuestionIndex/quiz.questions.length) * 100 ;
+    } else {
+      percentage = 0;
+    };
+    
+    //console.log(percentage);
+
+    progressBar.style.width = percentage + `%`; // This value is hardcoded as a placeholder
 
 
 
     // 3. Update the question count text 
     // Update the question count (div#questionCount) show the current question out of total questions
     
-    questionCount.innerText = `Question 1 of 10`; //  This value is hardcoded as a placeholder
+    questionCount.innerText = `${quiz.currentQuestionIndex} of ${quiz.questions.length}`; //  This value is hardcoded as a placeholder
 
 
     
@@ -118,11 +129,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // Loop through the current question `choices`.
       // For each choice create a new radio input with a label, and append it to the choice container.
       // Each choice should be displayed as a radio input element with a label:
+      const choicesDiv = document.createElement("div");
+      choicesDiv.innerHTML = `
+      input type="radio" name="choice" value="CHOICE TEXT HERE">
+          <label>CHOICE TEXT HERE</label>
+          `;
+      // theplacetobeinjected.appendChild(choicesDiv);
+      
+
       /* 
           <input type="radio" name="choice" value="CHOICE TEXT HERE">
           <label>CHOICE TEXT HERE</label>
         <br>
       */
+     
       // Hint 1: You can use the `document.createElement()` method to create a new element.
       // Hint 2: You can use the `element.type`, `element.name`, and `element.value` properties to set the type, name, and value of an element.
       // Hint 3: You can use the `element.appendChild()` method to append an element to the choices container.
