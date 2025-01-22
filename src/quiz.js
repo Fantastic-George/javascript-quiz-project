@@ -31,7 +31,7 @@ class Quiz {
 
 
     checkAnswer(answer) {
-        if (answer === this.correctAnswer) {
+        if (answer === this.questions[this.currentQuestionIndex].answer) {
             this.correctAnswers += 1;
         }
     } // question for Daniel!!??
