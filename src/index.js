@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const questionContainer = document.querySelector("#question");
   const choiceContainer = document.querySelector("#choices");
   const nextButton = document.querySelector("#nextButton");
+  const restartButton = document.getElementById("restartButton");
 
   // End view elements
   const resultContainer = document.querySelector("#result");
@@ -35,6 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const quizDuration = 120; // 120 seconds (2 minutes)
 
 
+
+  
+
   /************  QUIZ INSTANCE  ************/
 
   // Create a new Quiz instance object
@@ -59,12 +63,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /************  TIMER  ************/
 
-  let timer;
+  let counter = quiz.timeRemaining;
 
+  function updateTimerDisplay(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    timeRemainingContainer.innerText = `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+  }
+
+  updateTimerDisplay(counter);
+
+
+  const id = setInterval(function () {
+    counter--;
+    console.log(`Time left: ${counter} seconds`);
+  
+    // Update the timer display on the webpage
+    updateTimerDisplay(counter);
+  
+    if (counter === 0) {
+      clearInterval(id);
+      quizView.style.display = "none";
+      endView.style.display = "block";
+      console.log("Time's up!");
+    }
+  }, 1000);
+
+  
 
   /************  EVENT LISTENERS  ************/
 
   nextButton.addEventListener("click", nextButtonHandler);
+  
+  restartButton.addEventListener("click", restartButtonHandler);
 
 
 
@@ -182,6 +213,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+//---> BUTTON RESTART <-----
+
+
+function restartButtonHandler() {
+  counter = quiz.timeRemaining; // Reset counter to the initial value
+  updateTimerDisplay(counter); // Update the displayed timer immediately
+
+  // Clear any existing interval
+  clearInterval(id);
+
+  id = setInterval(function () {
+    counter--;
+    console.log(`Time left: ${counter} seconds`);
+
+    // Update the timer display on the webpage
+    updateTimerDisplay(counter);
+
+    if (counter === 0) {
+      clearInterval(id);
+      quizView.style.display = "none";
+      endView.style.display = "block";
+      console.log("Time's up!");
+    }
+  }, 1000);}
+
+
 
 
     function showResults() {
@@ -200,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    const restartButton = document.getElementById("restartButton");
+   // const restartButton = document.getElementById("restartButton");
     restartButton.addEventListener("click", resetQuiz);
 
       function resetQuiz() {
@@ -219,7 +276,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // Show first question
         showQuestion();
       }
-
   
   });
 
